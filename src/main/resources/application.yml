@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: account
+  profiles:
+    active: dev
+  config:
+    import: configserver:http://localhost:8888
+server:
+  port: 20261
