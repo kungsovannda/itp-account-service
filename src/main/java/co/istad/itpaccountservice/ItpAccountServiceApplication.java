@@ -5,7 +5,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("api/v1/accounts")
 @SpringBootApplication
 public class ItpAccountServiceApplication {
 
@@ -25,6 +30,11 @@ public class ItpAccountServiceApplication {
             System.out.println("Strong password: " + strongPassword);
             System.out.println("Weak password: " + weakPassword);
         };
+    }
+
+    @GetMapping
+    public String getAccounts(){
+        return "Account: Hello From Account";
     }
 
 }
