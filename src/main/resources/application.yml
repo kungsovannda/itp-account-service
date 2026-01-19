@@ -1,6 +1,12 @@
 spring:
   application:
     name: account
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090
   profiles:
     active: dev
   config:
