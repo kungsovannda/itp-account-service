@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
-@RequestMapping("api/v1/accounts")
+@RequestMapping("public/test")
 @SpringBootApplication
 public class ItpAccountServiceApplication {
 
@@ -18,23 +20,25 @@ public class ItpAccountServiceApplication {
         SpringApplication.run(ItpAccountServiceApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner run(
-            @Value("${service.name}") String name,
-            @Value("${secret.weak-password}") String weakPassword,
-            @Value("${secret.strong-password}") String strongPassword
-
-    ){
-        return args -> {
-            System.out.println("Service name: " + name);
-            System.out.println("Strong password: " + strongPassword);
-            System.out.println("Weak password: " + weakPassword);
-        };
-    }
+//    @Bean
+//    public CommandLineRunner run(
+//            @Value("${service.name}") String name,
+//            @Value("${secret.weak-password}") String weakPassword,
+//            @Value("${secret.strong-password}") String strongPassword
+//
+//    ){
+//        return args -> {
+//            System.out.println("Service name: " + name);
+//            System.out.println("Strong password: " + strongPassword);
+//            System.out.println("Weak password: " + weakPassword);
+//        };
+//    }
 
     @GetMapping
-    public String getAccounts(){
-        return "Account: Hello From Account";
+    public Map<String, String> getAccounts(){
+        return Map.of(
+                "data", "Account: Hello From Account"
+        );
     }
 
 }
