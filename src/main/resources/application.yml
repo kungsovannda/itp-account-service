@@ -11,8 +11,28 @@ spring:
     active: dev
   config:
     import: optional:configserver:http://localhost:8888
+
+  datasource:
+    url: jdbc:postgresql://localhost:16168/db_account
+    username: itpusr
+    password: itp@168
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+
 server:
   port: 20261
 eureka:
   instance:
     prefer-ip-address: true
+
+axon:
+  axonserver:
+    enabled: false
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
