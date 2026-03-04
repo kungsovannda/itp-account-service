@@ -1,5 +1,7 @@
 package co.istad.itpaccountservice.domain.aggregate;
 
+import co.istad.itpaccountservice.data.entity.CustomerEntity;
+import co.istad.itpaccountservice.data.repository.CustomerRepository;
 import co.istad.itpaccountservice.domain.command.CreateAccountCommand;
 import co.istad.itpaccountservice.domain.event.AccountCreatedEvent;
 import co.istad.itpaccountservice.domain.valueobject.AccountTypeCode;
@@ -11,6 +13,10 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.ZonedDateTime;
 
@@ -42,13 +48,16 @@ public class AccountAggregate {
     private String updatedBy;
 
     @CommandHandler
-    public AccountAggregate(CreateAccountCommand cmd){
-        log.info("Received CMD: {}",cmd);
+    public AccountAggregate(CreateAccountCommand cmd, @Autowired CustomerRepository customerRepository){
+        log.info("Received Aggregate CMD: {}",cmd);
+        CustomerEntity customer = customerRepository.findById(cmd.customerId().customerId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found")
+        );
         AggregateLifecycle.apply(
                 new AccountCreatedEvent(
                         cmd.accountId(),
                         cmd.accountNumber(),
-                        cmd.accountHolder(),
+                        resolveCustomerName(customer.getCustomerName()),
                         cmd.customerId(),
                         cmd.accountTypeCode(),
                         cmd.branchId(),
@@ -72,6 +81,13 @@ public class AccountAggregate {
         this.status = event.status();
         this.createdAt = event.createdAt();
         this.createdBy = event.createdBy();
+    }
+
+    private String resolveCustomerName(CustomerName name){
+        if(name != null){
+            return name.familyName() + " " + name.givenName();
+        }
+        return "";
     }
 
 

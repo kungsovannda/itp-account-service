@@ -1,10 +1,11 @@
 package co.istad.itpaccountservice.rest.dto;
 
-import java.util.Map;
+import co.istad.itpcommon.domain.valueobject.CustomerName;
 import java.util.UUID;
 
 public record CustomerResponse(
         UUID customerId,
-        Map<String, String> name
+        CustomerName name,
+        String phoneNumber
 ) {
 }
