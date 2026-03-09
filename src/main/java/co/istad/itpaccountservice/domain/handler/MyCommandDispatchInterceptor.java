@@ -49,7 +49,7 @@ public class MyCommandDispatchInterceptor implements MessageDispatchInterceptor<
     }
 
     private void validateCreateAccountCommand(CreateAccountCommand cmd){
-        WebClient webClient =  webClientBuilder.baseUrl("http://localhost:20260/api/customers/").build();
+        WebClient webClient =  webClientBuilder.baseUrl("http://customer/api/customers/").build();
 
         CustomerResponse customerResponse = webClient.get()
                 .uri("{customerId}", cmd.customerId().customerId())

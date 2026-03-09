@@ -1,4 +1,4 @@
-package co.istad.itpaccountservice.rest.dto;
+package co.istad.itpaccountservice.application.dto.create;
 
 import co.istad.itpaccountservice.domain.valueobject.AccountTypeCode;
 import co.istad.itpcommon.domain.valueobject.BranchId;
