@@ -1,11 +1,8 @@
 package co.istad.itpaccountservice.domain.handler;
 
-import co.istad.itpaccountservice.application.ports.output.client.CustomerClient;
-import co.istad.itpaccountservice.application.ports.output.repository.BranchRepository;
-import co.istad.itpaccountservice.application.ports.output.repository.CustomerRepository;
-import co.istad.itpaccountservice.dataaccess.entity.CustomerEntity;
-import co.istad.itpaccountservice.domain.command.CreateAccountCommand;
 import co.istad.itpaccountservice.application.dto.customer.CustomerResponse;
+import co.istad.itpaccountservice.application.ports.output.client.CustomerClient;
+import co.istad.itpaccountservice.domain.command.CreateAccountCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandMessage;

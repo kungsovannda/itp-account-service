@@ -9,7 +9,7 @@ public record CreateAccountCommand(
         @TargetAggregateIdentifier
         AccountId accountId,
 
-        String accountNumber,
+         String accountNumber,
 
          String accountHolder,
 
