@@ -1,7 +1,6 @@
 package co.istad.itpaccountservice.domain.handler;
 
 import co.istad.itpaccountservice.application.ports.output.client.CustomerClient;
-import co.istad.itpaccountservice.application.ports.output.repository.AccountTypeRepository;
 import co.istad.itpaccountservice.application.ports.output.repository.BranchRepository;
 import co.istad.itpaccountservice.application.ports.output.repository.CustomerRepository;
 import co.istad.itpaccountservice.dataaccess.entity.CustomerEntity;
@@ -24,9 +23,6 @@ import java.util.function.BiFunction;
 public class MyCommandDispatchInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
 
     private final CustomerClient customerClient;
-    private final BranchRepository branchRepository;
-    private final AccountTypeRepository accountTypeRepository;
-    private final CustomerRepository customerRepository;
 
     @Override
     public BiFunction<Integer, CommandMessage<?>, CommandMessage<?>> handle(List<? extends CommandMessage<?>> messages) {
@@ -41,23 +37,8 @@ public class MyCommandDispatchInterceptor implements MessageDispatchInterceptor<
     }
 
     private void validateCreateAccountCommand(CreateAccountCommand cmd){
-
         CustomerResponse customerResponse = customerClient.getCustomer(cmd.customerId().customerId().toString());
-
-        branchRepository.findById(cmd.branchId().branchId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Branch not found")
-        );
-
-        accountTypeRepository.findByAccountTypeCode(cmd.accountTypeCode()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account type not found")
-        );
-
         if(customerResponse != null) {
-            CustomerEntity customer = new CustomerEntity();
-            customer.setCustomerName(customerResponse.name());
-            customer.setCustomerId(customerResponse.customerId());
-            customer.setPhoneNumber(customerResponse.phoneNumber());
-            customerRepository.save(customer);
             return;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");

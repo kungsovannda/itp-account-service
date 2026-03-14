@@ -1,18 +1,15 @@
 package co.istad.itpaccountservice.domain.aggregate;
 
-import co.istad.itpaccountservice.dataaccess.entity.CustomerEntity;
-import co.istad.itpaccountservice.dataaccess.repository.CustomerJpaRepository;
 import co.istad.itpaccountservice.domain.command.CreateAccountCommand;
 import co.istad.itpaccountservice.domain.command.DepositMoneyCommand;
 import co.istad.itpaccountservice.domain.command.FreezeAccountCommand;
 import co.istad.itpaccountservice.domain.command.WithdrawMoneyCommand;
-import co.istad.itpcommon.domain.event.AccountCreatedEvent;
 import co.istad.itpaccountservice.domain.event.AccountFrozenEvent;
 import co.istad.itpaccountservice.domain.event.MoneyDepositedEvent;
 import co.istad.itpaccountservice.domain.event.MoneyWithdrawnEvent;
 import co.istad.itpaccountservice.domain.exception.AccountDomainException;
 import co.istad.itpaccountservice.domain.validate.AccountValidate;
-import co.istad.itpcommon.domain.valueobject.AccountTypeCode;
+import co.istad.itpcommon.domain.event.AccountCreatedEvent;
 import co.istad.itpcommon.domain.valueobject.*;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +18,6 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -56,22 +50,18 @@ public class AccountAggregate {
     private String updatedBy;
 
     @CommandHandler
-    public AccountAggregate(CreateAccountCommand cmd, @Autowired CustomerJpaRepository customerRepository){
+    public AccountAggregate(CreateAccountCommand cmd){
         log.info("Aggregate received CreateAccountCommand: {}",cmd);
 
         AccountValidate.validateAccountNumber(cmd.accountNumber());
         validateAccountType(cmd.accountTypeCode());
         validateInitialBalance(cmd.initialBalance());
 
-        CustomerEntity customer = customerRepository.findById(cmd.customerId().customerId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found")
-        );
-
         AggregateLifecycle.apply(
                 new AccountCreatedEvent(
                         cmd.accountId(),
                         cmd.accountNumber(),
-                        resolveCustomerName(customer.getCustomerName()),
+                        cmd.accountHolder(),
                         cmd.customerId(),
                         cmd.accountTypeCode(),
                         cmd.branchId(),
@@ -178,13 +168,6 @@ public class AccountAggregate {
     protected void on(AccountFrozenEvent event){
         this.status = event.newStatus();
         this.updatedAt = event.createdAt();
-    }
-
-    private String resolveCustomerName(CustomerName name){
-        if(name != null){
-            return name.familyName() + " " + name.givenName();
-        }
-        return "";
     }
 
     private void validateAccountType(AccountTypeCode accountTypeCode) {

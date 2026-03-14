@@ -1,4 +1,4 @@
-package co.istad.itpaccountservice.rest;
+package co.istad.itpaccountservice.rest.controller;
 
 import co.istad.itpaccountservice.application.ports.input.service.AccountService;
 import co.istad.itpaccountservice.application.dto.create.CreateAccountResponse;
