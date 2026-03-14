@@ -1,8 +1,8 @@
-package co.istad.itpaccountservice.data.init;
+package co.istad.itpaccountservice.dataaccess.init;
 
-import co.istad.itpaccountservice.data.entity.AccountTypeEntity;
-import co.istad.itpaccountservice.data.repository.AccountTypeRepository;
-import co.istad.itpaccountservice.domain.valueobject.AccountTypeCode;
+import co.istad.itpaccountservice.dataaccess.entity.AccountTypeEntity;
+import co.istad.itpaccountservice.dataaccess.repository.AccountTypeJpaRepository;
+import co.istad.itpcommon.domain.valueobject.AccountTypeCode;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class InitAccountType {
 
-    private final AccountTypeRepository accountTypeRepository;
+    private final AccountTypeJpaRepository accountTypeRepository;
 
     @PostConstruct
     public void init(){

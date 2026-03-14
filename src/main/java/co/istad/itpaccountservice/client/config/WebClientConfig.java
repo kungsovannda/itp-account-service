@@ -1,4 +1,4 @@
-package co.istad.itpaccountservice.config;
+package co.istad.itpaccountservice.client.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;

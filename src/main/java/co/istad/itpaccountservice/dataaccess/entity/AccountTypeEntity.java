@@ -1,7 +1,7 @@
-package co.istad.itpaccountservice.data.entity;
+package co.istad.itpaccountservice.dataaccess.entity;
 
 
-import co.istad.itpaccountservice.domain.valueobject.AccountTypeCode;
+import co.istad.itpcommon.domain.valueobject.AccountTypeCode;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.Getter;

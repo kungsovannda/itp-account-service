@@ -1,18 +1,18 @@
 package co.istad.itpaccountservice.domain.aggregate;
 
-import co.istad.itpaccountservice.data.entity.CustomerEntity;
-import co.istad.itpaccountservice.data.repository.CustomerRepository;
+import co.istad.itpaccountservice.dataaccess.entity.CustomerEntity;
+import co.istad.itpaccountservice.dataaccess.repository.CustomerJpaRepository;
 import co.istad.itpaccountservice.domain.command.CreateAccountCommand;
 import co.istad.itpaccountservice.domain.command.DepositMoneyCommand;
 import co.istad.itpaccountservice.domain.command.FreezeAccountCommand;
 import co.istad.itpaccountservice.domain.command.WithdrawMoneyCommand;
-import co.istad.itpaccountservice.domain.event.AccountCreatedEvent;
+import co.istad.itpcommon.domain.event.AccountCreatedEvent;
 import co.istad.itpaccountservice.domain.event.AccountFrozenEvent;
 import co.istad.itpaccountservice.domain.event.MoneyDepositedEvent;
 import co.istad.itpaccountservice.domain.event.MoneyWithdrawnEvent;
 import co.istad.itpaccountservice.domain.exception.AccountDomainException;
 import co.istad.itpaccountservice.domain.validate.AccountValidate;
-import co.istad.itpaccountservice.domain.valueobject.AccountTypeCode;
+import co.istad.itpcommon.domain.valueobject.AccountTypeCode;
 import co.istad.itpcommon.domain.valueobject.*;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +56,7 @@ public class AccountAggregate {
     private String updatedBy;
 
     @CommandHandler
-    public AccountAggregate(CreateAccountCommand cmd, @Autowired CustomerRepository customerRepository){
+    public AccountAggregate(CreateAccountCommand cmd, @Autowired CustomerJpaRepository customerRepository){
         log.info("Aggregate received CreateAccountCommand: {}",cmd);
 
         AccountValidate.validateAccountNumber(cmd.accountNumber());

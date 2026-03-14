@@ -19,7 +19,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: false
 
 
@@ -32,7 +32,20 @@ eureka:
 axon:
   axonserver:
     enabled: false
+  kafka:
+    bootstrap-servers: localhost:29092,localhost:29094,localhost:29096
+    default-topic: Axon.AccountCQRS.Events
+    client-id: kafka-axon-account
+    message-converter-mode: default
+    properties:
+      security.protocol: PLAINTEXT
+    publisher:
+      confirmation-mode: transactional
+    producer:
+      transaction-id-prefix: kafka-axon-
+      retries: 5
+      event-processor-mode: tracking
   serializer:
-    general: jackson3
-    events: jackson3
-    messages: jackson3
+    general: jackson
+    events: jackson
+    messages: jackson

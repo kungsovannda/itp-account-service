@@ -1,4 +1,4 @@
-package co.istad.itpaccountservice.data.entity;
+package co.istad.itpaccountservice.dataaccess.entity;
 
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;

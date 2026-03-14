@@ -1,4 +1,4 @@
-package co.istad.itpaccountservice.rest.dto;
+package co.istad.itpaccountservice.application.dto.customer;
 
 import co.istad.itpcommon.domain.valueobject.CustomerName;
 import java.util.UUID;

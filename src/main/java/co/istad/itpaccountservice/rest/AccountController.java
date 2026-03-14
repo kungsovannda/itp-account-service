@@ -1,6 +1,6 @@
 package co.istad.itpaccountservice.rest;
 
-import co.istad.itpaccountservice.application.AccountService;
+import co.istad.itpaccountservice.application.ports.input.service.AccountService;
 import co.istad.itpaccountservice.application.dto.create.CreateAccountResponse;
 import co.istad.itpaccountservice.application.dto.deposit.DepositRequest;
 import co.istad.itpaccountservice.application.dto.deposit.DepositResponse;
@@ -8,11 +8,9 @@ import co.istad.itpaccountservice.application.dto.freeze.FreezeRequest;
 import co.istad.itpaccountservice.application.dto.freeze.FreezeResponse;
 import co.istad.itpaccountservice.application.dto.withdraw.WithdrawRequest;
 import co.istad.itpaccountservice.application.dto.withdraw.WithdrawResponse;
-import co.istad.itpaccountservice.domain.command.CreateAccountCommand;
 import co.istad.itpaccountservice.application.dto.create.CreateAccountRequest;
 import co.istad.itpcommon.domain.valueobject.AccountId;
 import lombok.RequiredArgsConstructor;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

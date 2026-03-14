@@ -1,25 +1,21 @@
 package co.istad.itpaccountservice.domain.handler;
 
-import co.istad.itpaccountservice.data.entity.CustomerEntity;
-import co.istad.itpaccountservice.data.repository.AccountTypeRepository;
-import co.istad.itpaccountservice.data.repository.BranchRepository;
-import co.istad.itpaccountservice.data.repository.CustomerRepository;
+import co.istad.itpaccountservice.application.ports.output.client.CustomerClient;
+import co.istad.itpaccountservice.application.ports.output.repository.AccountTypeRepository;
+import co.istad.itpaccountservice.application.ports.output.repository.BranchRepository;
+import co.istad.itpaccountservice.application.ports.output.repository.CustomerRepository;
+import co.istad.itpaccountservice.dataaccess.entity.CustomerEntity;
 import co.istad.itpaccountservice.domain.command.CreateAccountCommand;
-import co.istad.itpaccountservice.rest.dto.CustomerResponse;
+import co.istad.itpaccountservice.application.dto.customer.CustomerResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandMessage;
-import org.axonframework.commandhandling.GenericCommandMessage;
 import org.axonframework.messaging.MessageDispatchInterceptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.function.BiFunction;
 
 @Component
@@ -27,7 +23,7 @@ import java.util.function.BiFunction;
 @Slf4j
 public class MyCommandDispatchInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
 
-    private final WebClient.Builder webClientBuilder;
+    private final CustomerClient customerClient;
     private final BranchRepository branchRepository;
     private final AccountTypeRepository accountTypeRepository;
     private final CustomerRepository customerRepository;
@@ -44,16 +40,9 @@ public class MyCommandDispatchInterceptor implements MessageDispatchInterceptor<
         };
     }
 
-    private boolean checkLocalCustomer(UUID id){
-        return customerRepository.existsById(id);
-    }
-
     private void validateCreateAccountCommand(CreateAccountCommand cmd){
-        WebClient webClient =  webClientBuilder.baseUrl("http://customer/api/customers/").build();
 
-        CustomerResponse customerResponse = webClient.get()
-                .uri("{customerId}", cmd.customerId().customerId())
-                .retrieve().bodyToMono(CustomerResponse.class).block();
+        CustomerResponse customerResponse = customerClient.getCustomer(cmd.customerId().customerId().toString());
 
         branchRepository.findById(cmd.branchId().branchId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Branch not found")

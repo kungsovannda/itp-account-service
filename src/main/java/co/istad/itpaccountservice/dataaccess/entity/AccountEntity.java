@@ -1,6 +1,6 @@
-package co.istad.itpaccountservice.data.entity;
+package co.istad.itpaccountservice.dataaccess.entity;
 
-import co.istad.itpaccountservice.domain.valueobject.AccountTypeCode;
+import co.istad.itpcommon.domain.valueobject.AccountTypeCode;
 import co.istad.itpcommon.domain.valueobject.AccountStatus;
 import co.istad.itpcommon.domain.valueobject.Money;
 import jakarta.persistence.*;

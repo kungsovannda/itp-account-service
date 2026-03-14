@@ -8,6 +8,7 @@ import co.istad.itpaccountservice.application.dto.freeze.FreezeRequest;
 import co.istad.itpaccountservice.application.dto.freeze.FreezeResponse;
 import co.istad.itpaccountservice.application.dto.withdraw.WithdrawRequest;
 import co.istad.itpaccountservice.application.dto.withdraw.WithdrawResponse;
+import co.istad.itpaccountservice.application.ports.input.service.AccountService;
 import co.istad.itpaccountservice.domain.command.CreateAccountCommand;
 import co.istad.itpaccountservice.domain.command.DepositMoneyCommand;
 import co.istad.itpaccountservice.domain.command.FreezeAccountCommand;

@@ -1,7 +1,7 @@
-package co.istad.itpaccountservice.data.init;
+package co.istad.itpaccountservice.dataaccess.init;
 
-import co.istad.itpaccountservice.data.entity.BranchEntity;
-import co.istad.itpaccountservice.data.repository.BranchRepository;
+import co.istad.itpaccountservice.dataaccess.entity.BranchEntity;
+import co.istad.itpaccountservice.dataaccess.repository.BranchJpaRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class InitBranch {
 
-    private final BranchRepository branchRepository;
+    private final BranchJpaRepository branchRepository;
 
     @PostConstruct
     public void init(){

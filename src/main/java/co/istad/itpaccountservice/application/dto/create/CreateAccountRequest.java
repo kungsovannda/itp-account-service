@@ -1,6 +1,6 @@
 package co.istad.itpaccountservice.application.dto.create;
 
-import co.istad.itpaccountservice.domain.valueobject.AccountTypeCode;
+import co.istad.itpcommon.domain.valueobject.AccountTypeCode;
 import co.istad.itpcommon.domain.valueobject.BranchId;
 import co.istad.itpcommon.domain.valueobject.CustomerId;
 import co.istad.itpcommon.domain.valueobject.Money;
